@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import CardList from './cardlist/CardList';
-import {robots} from './card/robots';
+
 import SearchBox from './searchbox/SearchBox';
 import './App.css';
 
@@ -8,8 +8,14 @@ import './App.css';
 class App extends Component{
 
     state = {
-        'robots' : robots,
+        'robots' : [],
         'currentSearch' : ''
+    }
+
+    componentDidMount = () => {
+        fetch("https://jsonplaceholder.typicode.com/users")
+        .then(response=>response.json())
+        .then(data=>this.setState({'robots':data}))
     }
 
     searchHandler = (e) => {
@@ -17,13 +23,18 @@ class App extends Component{
     }
 
     render(){
-        return(
-            <div className="tc">
-                <h1 className='f1'>ROBOFRIENDS</h1>
-                <SearchBox searchHandler={this.searchHandler}/>
-                <CardList robots={this.state['robots']} search={this.state['currentSearch']}/>
-            </div>
-        )
+        if (this.state.robots.length === 0) {
+            return <h1>Loading...</h1>
+        } else {
+            return(
+                <div className="tc">
+                    <h1 className='f1'>ROBOFRIENDS</h1>
+                    <SearchBox searchHandler={this.searchHandler}/>
+                    <CardList robots={this.state['robots']} search={this.state['currentSearch']}/>
+                </div>
+            )
+        }
+
     }
 } 
 

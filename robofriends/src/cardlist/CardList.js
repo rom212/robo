@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from '../card/Card';
+import Scroll from '../scroll/Scroll';
 
 const CardList = ({robots, search}) => {
     const cardArray = robots.map((user,i)=>{
@@ -13,7 +14,9 @@ const CardList = ({robots, search}) => {
     });
     return(
         <div>
-            {cardArray}
+            <Scroll>
+                {cardArray}
+            </Scroll>
         </div>
     )
 }
