@@ -1,40 +1,25 @@
 import React, {Component} from 'react';
-import CardList from './cardlist/CardList';
-
-import SearchBox from './searchbox/SearchBox';
+import Nav from './nav/Nav';
+import Robosearch from './robosearch/Robosearch';
+import About from './about/About';
+import Signin from './signin/Signin';
 import './App.css';
+import { BrowserRouter, Route} from 'react-router-dom';
 
 
 class App extends Component{
 
-    state = {
-        'robots' : [],
-        'currentSearch' : ''
-    }
-
-    componentDidMount = () => {
-        fetch("https://jsonplaceholder.typicode.com/users")
-        .then(response=>response.json())
-        .then(data=>this.setState({'robots':data}))
-    }
-
-    searchHandler = (e) => {
-        this.setState({'currentSearch': e.target.value});
-    }
-
     render(){
-        if (this.state.robots.length === 0) {
-            return <h1>Loading...</h1>
-        } else {
-            return(
-                <div className="tc">
-                    <h1 className='f1'>ROBOFRIENDS</h1>
-                    <SearchBox searchHandler={this.searchHandler}/>
-                    <CardList robots={this.state['robots']} search={this.state['currentSearch']}/>
+        return(
+            <BrowserRouter>
+                <div>
+                    <Nav />
+                    <Route exact path='/' component={Robosearch} />
+                    <Route exact path='/about' component={About} />
+                    <Route exact path='/signin' component={Signin} />
                 </div>
-            )
-        }
-
+            </BrowserRouter>             
+        )
     }
 } 
 
